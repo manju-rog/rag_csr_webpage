@@ -47,7 +47,51 @@ function HomeView({ onNavigate }: { onNavigate: (v: View) => void, key?: string 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col items-center justify-center min-h-screen px-6 py-12"
+      className="flex flex-col items-center justify-center min-h-screen px-6 py-12 relative overflow-hidden"
+    >
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-emerald-50/50" />
+      
+      {/* Floating Orbs */}
+      <motion.div
+        animate={{
+          y: [0, -20, 0],
+          x: [0, 10, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-20 left-[10%] w-64 h-64 bg-blue-200/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{
+          y: [0, 20, 0],
+          x: [0, -15, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute bottom-20 right-[15%] w-80 h-80 bg-emerald-200/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{
+          y: [0, -15, 0],
+          x: [0, -10, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-1/2 right-[5%] w-48 h-48 bg-purple-200/20 rounded-full blur-3xl"
+      />
+      
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full"
     >
       <motion.div
         initial={{ y: 20, opacity: 0 }}
@@ -55,11 +99,19 @@ function HomeView({ onNavigate }: { onNavigate: (v: View) => void, key?: string 
         transition={{ delay: 0.2 }}
         className="text-center mb-10"
       >
-        <h1 className="text-xs font-semibold tracking-widest uppercase text-blue-600 mb-2">
-          Future of Intelligence
-        </h1>
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-sm mb-4"
+        >
+          <Sparkles className="w-4 h-4 text-blue-600" />
+          <span className="text-xs font-semibold tracking-widest uppercase text-blue-600">
+            Future of Intelligence
+          </span>
+        </motion.div>
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#1d1d1f] mb-4">
-          AI Applications
+          AiDN Suite
         </h2>
         <p className="text-lg md:text-xl text-[#86868b] max-w-xl mx-auto font-medium">
           Experience the next generation of productivity tools powered by advanced language models.
@@ -68,7 +120,7 @@ function HomeView({ onNavigate }: { onNavigate: (v: View) => void, key?: string 
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
         <AppCard
-          title="RAG"
+          title="AiDN - Enterprise Search"
           description="Retrieval-Augmented Generation for intelligent document querying."
           icon={<Search className="w-6 h-6 text-blue-500" />}
           onClick={() => onNavigate('rag')}
@@ -76,7 +128,7 @@ function HomeView({ onNavigate }: { onNavigate: (v: View) => void, key?: string 
           delay={0.4}
         />
         <AppCard
-          title="CSR Generator"
+          title="AiDN - Heimdall (CSR Generator)"
           description="Automated Certificate signing Request by AI"
           icon={<FileText className="w-6 h-6 text-emerald-500" />}
           onClick={() => onNavigate('csr')}
@@ -91,19 +143,29 @@ function HomeView({ onNavigate }: { onNavigate: (v: View) => void, key?: string 
         transition={{ delay: 0.8 }}
         className="mt-12 flex gap-8 text-[#86868b]"
       >
-        <div className="flex items-center gap-2">
-          <Shield className="w-5 h-5" />
+        <motion.div
+          whileHover={{ scale: 1.05, y: -2 }}
+          className="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-sm"
+        >
+          <Shield className="w-5 h-5 text-blue-600" />
           <span className="text-sm font-medium">Secure</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5" />
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.05, y: -2 }}
+          className="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-sm"
+        >
+          <Zap className="w-5 h-5 text-yellow-600" />
           <span className="text-sm font-medium">Fast</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5" />
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.05, y: -2 }}
+          className="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-sm"
+        >
+          <Globe className="w-5 h-5 text-emerald-600" />
           <span className="text-sm font-medium">Global</span>
-        </div>
+        </motion.div>
       </motion.div>
+    </div>
     </motion.div>
   );
 }
@@ -117,7 +179,7 @@ function AppCard({ title, description, icon, onClick, color, delay }: any) {
       whileHover={{ scale: 1.02, y: -5 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`group relative flex flex-col items-start p-8 rounded-[2rem] ${color} border border-transparent hover:border-black/5 transition-all duration-500 text-left overflow-hidden shadow-sm hover:shadow-xl`}
+      className={`group relative flex flex-col items-start p-8 rounded-[2rem] ${color} border border-transparent hover:border-black/5 transition-all duration-500 text-left overflow-hidden shadow-sm hover:shadow-xl backdrop-blur-sm bg-opacity-80`}
     >
       <div className="mb-6 p-3 bg-white rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
         {icon}
@@ -130,8 +192,20 @@ function AppCard({ title, description, icon, onClick, color, delay }: any) {
         Get Started <ChevronRight className="w-4 h-4 ml-1" />
       </div>
 
-      {/* Decorative background element */}
+      {/* Decorative background elements */}
       <div className="absolute -right-12 -bottom-12 w-32 h-32 bg-white/30 rounded-full blur-2xl group-hover:bg-white/50 transition-colors" />
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute -left-8 -top-8 w-24 h-24 bg-white/20 rounded-full blur-xl"
+      />
     </motion.button>
   );
 }
